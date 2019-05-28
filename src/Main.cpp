@@ -9,8 +9,8 @@ int main(int argc, char const *argv[]) {
 
   game ->Initialize(WINDOW_WIDTH,WINDOW_HEIGHT);
 
-  while (game->IsRunning()){
-    
+  while (game->isRunning()){
+
     game -> ProcessInput();
     game -> Update();
     game -> Render();
