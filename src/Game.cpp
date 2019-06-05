@@ -1,7 +1,7 @@
 #include <iostream>
 #include "./Constants.h"
 #include "./Game.h"
-#include "./Components/transformComponent.h"
+#include "./Components/TransformComponent.h"
 #include "../lib/glm/glm.hpp"
 
 EntityManager manager;

@@ -1,5 +1,5 @@
 #include "./Entity.h"
-#include "./Components/transformComponent.h"
+#include "./Components/TransformComponent.h"
 #include <iostream>
 #include <string>
 
