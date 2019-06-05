@@ -1,25 +1,22 @@
 #include <iostream>
 #include "./Constants.h"
 #include "./Game.h"
+#include "./Components/transformComponent.h"
+#include "../lib/glm/glm.hpp"
 
+EntityManager manager;
+SDL_Renderer* Game::renderer;
 
 Game::Game() {
   this -> m_isRunning = false;
 }
 
 Game::~Game(){
-
 }
 
 bool Game::isRunning() const {
   return this -> m_isRunning;
 }
-
-float projectilePosX = 0.0f;
-float projectilePosY = 0.0f;
-float projectileVelX = 40.0f;
-float projectileVelY = 20.0f;
-
 
 void Game::Initialize(int width, int height){
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -43,8 +40,29 @@ void Game::Initialize(int width, int height){
     std::cerr << "Error creating renderer" << std::endl;
     return;
   }
+
+  LoadLevel(1);
+
+  manager.listAllEntities();
+
   m_isRunning = true;
   return;
+}
+
+void Game::LoadLevel(int levelNumber){
+  if (levelNumber == 0){
+    Entity& newEntity(manager.AddEntity("projectile 00"));
+    newEntity.AddComponent<TransformComponent>(0 , 0, 20, 20, 32, 32, 1);
+  }
+
+  else if (levelNumber == 1){
+    Entity& newEntity(manager.AddEntity("projectile 01"));
+    newEntity.AddComponent<TransformComponent>(200, 200, -20, -20, 32, 32, 1);
+
+    Entity& newEntity2(manager.AddEntity("projectile 02"));
+    newEntity2.AddComponent<TransformComponent>(0 , 0, 20, 20, 32, 32, 1);
+  }
+
 }
 
 void Game::ProcessInput(){
@@ -73,23 +91,20 @@ void Game::Update(){
   //ticks for current frame
   ticksLastFrame = SDL_GetTicks();
 
-  projectilePosX += projectileVelX * deltaTime;
-  projectilePosY += projectileVelY * deltaTime;
+  manager.Update(deltaTime);
+
 }
 
 void Game::Render(){
   SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);
   SDL_RenderClear(renderer);
 
-  SDL_Rect projectile {
-    (int) projectilePosX,
-    (int) projectilePosY,
-    10,
-    10
-  };
+  if (manager.hasNoEntities()){
+    return;
+  }
 
-  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-  SDL_RenderFillRect(renderer, &projectile);
+  manager.Render();
+
   SDL_RenderPresent(renderer);
 }
 
