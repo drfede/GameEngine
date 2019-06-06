@@ -2,6 +2,7 @@
 #include "./Constants.h"
 #include "./Game.h"
 #include "./AssetManager.h"
+#include "./Animation.h"
 #include "./Components/TransformComponent.h"
 #include "./Components/SpriteComponent.h"
 #include "../lib/glm/glm.hpp"
@@ -54,25 +55,20 @@ void Game::Initialize(int width, int height){
 
 void Game::LoadLevel(int levelNumber){
   // First include assets
-  std::string textureFilePath = "./assets/images/tank-big-right.png";
-  assetManager->AddTexture("tank-image", textureFilePath.c_str());
+  assetManager->AddTexture("tank-image", std::string("./assets/images/tank-big-right.png").c_str());
+  assetManager->AddTexture("chopper-image", std::string("./assets/images/chopper-spritesheet.png").c_str());
 
 
 
   //Then include entities
-  if (levelNumber == 0){
-    Entity& newEntity(manager.AddEntity("tank"));
-    newEntity.AddComponent<TransformComponent>(0 , 0, 20, 20, 32, 32, 1);
-    newEntity.AddComponent<SpriteComponent>("tank-image");
-  }
+    Entity& tankEntity(manager.AddEntity("tank"));
+    tankEntity.AddComponent<TransformComponent>(0 , 0, 20, 20, 32, 32, 1);
+    tankEntity.AddComponent<SpriteComponent>("tank-image");
 
-  else if (levelNumber == 1){
-    Entity& newEntity(manager.AddEntity("projectile 01"));
-    newEntity.AddComponent<TransformComponent>(200, 200, -20, -20, 32, 32, 1);
+    Entity& chopperEntity(manager.AddEntity("chopper"));
+    chopperEntity.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1);
+    chopperEntity.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
 
-    Entity& newEntity2(manager.AddEntity("projectile 02"));
-    newEntity2.AddComponent<TransformComponent>(0 , 0, 20, 20, 32, 32, 1);
-  }
 
 }
 
