@@ -52,7 +52,7 @@ unsigned int EntityManager::getEntityCount() {
 
 void EntityManager::listAllEntities(){
   for (auto& entity: entities){
-    std::cout << "Entity Name: " << entity->name << std::endl;
+    //std::cout << "Entity Name: " << entity->name << std::endl;
     entity->listAllComponents();
   }
 }

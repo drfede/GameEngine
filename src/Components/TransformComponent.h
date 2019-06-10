@@ -31,11 +31,11 @@ public:
   }
 
   void Update(float deltaTime) override {
-    if ((position.x < WINDOW_WIDTH-31 && velocity.x>0)||(position.x > 0 && velocity.x<0 ))
+    if ((position.x < Game::camera.x+WINDOW_WIDTH-31 && velocity.x>0)||(position.x > 0 && velocity.x<0 ))
     position.x += velocity.x * deltaTime;
-    if ((position.y < WINDOW_HEIGHT-31 && velocity.y>0)||(position.y > 0 && velocity.y<0))
+    if ((position.y < Game::camera.y+WINDOW_HEIGHT-31 && velocity.y>0)||(position.y > 0 && velocity.y<0))
     position.y += velocity.y * deltaTime;
-    
+
     //std::cout << owner->name << " X: " << position.x << " Y: " << position.y << std::endl;
   }
 
