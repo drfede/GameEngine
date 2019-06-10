@@ -22,6 +22,7 @@ class Game {
     static AssetManager* assetManager;
     static SDL_Event event;
     static SDL_Rect camera;
+    static bool collidersOn;
     void LoadLevel(int levelNumber);
     void Initialize(int width, int height);
     void ProcessInput();
@@ -29,6 +30,7 @@ class Game {
     void Render();
     void Destroy();
     void HandleCameraMovement();
+    void CheckCollisions();
 
 };
 

@@ -5,6 +5,7 @@
 #include "./Component.h"
 #include "Constants.h"
 #include <vector>
+#include <string>
 
 
 class EntityManager {
@@ -20,6 +21,7 @@ public:
   std::vector<Entity*> getEntities() const;
   std::vector<Entity*> getEntitiesByLayer(LayerType layer) const;
   unsigned int getEntityCount();
+  std::string CheckEntityCollisions(Entity& entity) const;
 };
 
 #endif

@@ -1,5 +1,8 @@
 #include "./EntityManager.h"
 #include <iostream>
+#include <string>
+#include "./Collision.h"
+#include "./Components/ColliderComponent.h"
 
 void EntityManager::ClearData() {
   for (auto& entity: entities) {
@@ -55,4 +58,19 @@ void EntityManager::listAllEntities(){
     //std::cout << "Entity Name: " << entity->name << std::endl;
     entity->listAllComponents();
   }
+}
+
+std::string EntityManager::CheckEntityCollisions(Entity& myEntity) const{
+  ColliderComponent* myCollider = myEntity.GetComponent<ColliderComponent>();
+  for (auto& entity: entities){
+    if (entity->name.compare(myEntity.name) != 0 && entity->name.compare("Tile") != 0){
+      if (entity->HasComponent<ColliderComponent>()){
+        ColliderComponent* otherEntityCollider = entity->GetComponent<ColliderComponent>();
+        if (Collision::CheckRectangleCollision(myCollider->collider, otherEntityCollider->collider)){
+          return otherEntityCollider->colliderTag;
+        }
+      }
+    }
+  }
+  return std::string();
 }
