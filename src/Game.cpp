@@ -6,6 +6,7 @@
 #include "./Map.h"
 #include "./Components/TransformComponent.h"
 #include "./Components/SpriteComponent.h"
+#include "./Components/TextLabelComponent.h"
 #include "./Components/KeyboardControlComponent.h"
 #include "../lib/glm/glm.hpp"
 #include "./Components/ColliderComponent.h"
@@ -31,8 +32,11 @@ bool Game::isRunning() const {
 
 void Game::Initialize(int width, int height){
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-    std::cerr << "Error with SDL" << std::endl;
+    std::cerr << "Error initializing SDL" << std::endl;
     return;
+  }
+  if (TTF_Init() != 0){
+    std::cerr << "Error initializing SDL_TTF" << std::endl;
   }
   window = SDL_CreateWindow(
     NULL,   //TITLE
@@ -69,14 +73,16 @@ void Game::LoadLevel(int levelNumber){
   assetManager->AddTexture("radar-image", std::string("./assets/images/radar.png").c_str());
   assetManager->AddTexture("jungle-tiletexture", std::string("./assets/tilemaps/jungle.png").c_str());
   assetManager->AddTexture("collisionTexture", std::string("./assets/images/collision-texture.png").c_str());
+  assetManager->AddFont("charriot-font", std::string("./assets/fonts/charriot.ttf").c_str(), 14);
+
 
   map = new Map("jungle-tiletexture", 2, 32);
   map->LoadMap("./assets/tilemaps/jungle.map", 25, 20);
 
   player.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1);
   player.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
-  player.AddComponent<KeyboardControlComponent>("w","d","s","a","space","c");
-  player.AddComponent<ColliderComponent>("player", 240, 106, 32, 32);
+  player.AddComponent<KeyboardControlComponent>("w","d","s","a","space");
+  player.AddComponent<ColliderComponent>(COLLIDER_PLAYER, 240, 106, 32, 32);
 
   Entity& radarEntity(manager.AddEntity("radar", UI_LAYER));
   radarEntity.AddComponent<TransformComponent>(720, 15, 0, 0, 64, 64, 1);
@@ -86,9 +92,10 @@ void Game::LoadLevel(int levelNumber){
     Entity& tankEntity(manager.AddEntity("tank", ENEMY_LAYER));
     tankEntity.AddComponent<TransformComponent>(150, 495, 5, 0, 32, 32, 1);
     tankEntity.AddComponent<SpriteComponent>("tank-image");
-    tankEntity.AddComponent<ColliderComponent>("enemy",150,495,32,32);
+    tankEntity.AddComponent<ColliderComponent>(COLLIDER_ENEMY,150,495,32,32);
 
-
+    Entity& labelLevelName(manager.AddEntity("LabelLevelName", UI_LAYER));
+    labelLevelName.AddComponent<TextLabelComponent>(10,10, "First Level", "charriot-font", WHITE_COLOR);
 
 }
 
@@ -100,6 +107,9 @@ void Game::ProcessInput(){
     case SDL_KEYDOWN: {
       if (event.key.keysym.sym == SDLK_ESCAPE)
         m_isRunning = false;
+      if (event.key.keysym.sym == SDLK_F1)
+        collidersOn = collidersOn ? false : true;
+
     }
     default: {break;}
   }
@@ -150,13 +160,24 @@ void Game::HandleCameraMovement(){
 }
 
 void Game::CheckCollisions(){
-  std::string collisionTagType = manager.CheckEntityCollisions(player);
-  if (collisionTagType.compare("enemy") == 0){
-    //collision with enemy
+  CollisionType collisionType = manager.CheckCollisions();
+  if (collisionType == PLAYER_ENEMY_COLLISION) {
+    ProcessGameOver();
+  }
+  if (collisionType == PLAYER_LEVEL_COMPLETE_COLLISION) {
+    ProcessNextLevel(1);
+  }
+}
+
+  void Game::ProcessNextLevel(int levelNumber){
+    std::cout << "Next level" << std::endl;
     m_isRunning = false;
   }
 
-}
+  void Game::ProcessGameOver() {
+    std::cout << "Game Over" << std::endl;
+    m_isRunning = false;
+  }
 
 
 void Game::Destroy(){

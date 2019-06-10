@@ -13,7 +13,6 @@ public:
   std::string leftKey;
   std::string rightKey;
   std::string shootKey;
-  std::string cKey;
   TransformComponent *transform;
   SpriteComponent *sprite;
 
@@ -25,14 +24,12 @@ public:
       std::string rightKey,
       std::string downKey,
       std::string leftKey,
-      std::string shootKey,
-      std::string cKey){
+      std::string shootKey){
       this->upKey = GetSDLKeyStringCode(upKey);
       this->rightKey = GetSDLKeyStringCode(rightKey);
       this->downKey = GetSDLKeyStringCode(downKey);
       this->leftKey = GetSDLKeyStringCode(leftKey);
       this->shootKey = GetSDLKeyStringCode(shootKey);
-      this->cKey = GetSDLKeyStringCode(cKey);
     }
 
     std::string GetSDLKeyStringCode(std::string key){
@@ -76,9 +73,6 @@ public:
         }
         if (keyCode.compare(shootKey) == 0){
           // TODO SHOOT AND PROJECTILES
-        }
-        if (keyCode.compare(cKey) == 0){
-          Game::collidersOn = Game::collidersOn ? false : true;
         }
       }
 

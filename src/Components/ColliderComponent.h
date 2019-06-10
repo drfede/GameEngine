@@ -52,13 +52,7 @@ public:
 
     if (Game::collidersOn)
       TextureManager::Draw(texture, sourceRectangle, destinationRectangle, SDL_FLIP_NONE);
-    /*
-    if (Game::collidersOn){
-      TextureManager::Draw(texture, sourceRectangle, destinationRectangle, SDL_FLIP_NONE);
-    } else {
-
-    }
-    */
+      
   }
 
 
