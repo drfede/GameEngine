@@ -3,6 +3,7 @@
 
 #include "./Entity.h"
 #include "./Component.h"
+#include "Constants.h"
 #include <vector>
 
 
@@ -15,8 +16,9 @@ public:
   void Render();
   void listAllEntities();
   bool hasNoEntities();
-  Entity& AddEntity(std::string entityName);
+  Entity& AddEntity(std::string entityName, LayerType layer);
   std::vector<Entity*> getEntities() const;
+  std::vector<Entity*> getEntitiesByLayer(LayerType layer) const;
   unsigned int getEntityCount();
 };
 

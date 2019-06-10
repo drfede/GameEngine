@@ -3,6 +3,7 @@
 #include "./Game.h"
 #include "./AssetManager.h"
 #include "./Animation.h"
+#include "./Map.h"
 #include "./Components/TransformComponent.h"
 #include "./Components/SpriteComponent.h"
 #include "./Components/KeyboardControlComponent.h"
@@ -13,6 +14,7 @@ EntityManager manager;
 SDL_Renderer* Game::renderer;
 AssetManager* Game::assetManager = new AssetManager(&manager);
 SDL_Event Game::event;
+Map* map;
 
 Game::Game() {
   this -> m_isRunning = false;
@@ -60,11 +62,20 @@ void Game::LoadLevel(int levelNumber){
   // First include assets
   assetManager->AddTexture("tank-image", std::string("./assets/images/tank-big-right.png").c_str());
   assetManager->AddTexture("chopper-image", std::string("./assets/images/chopper-spritesheet.png").c_str());
+  assetManager->AddTexture("radar-image", std::string("./assets/images/radar.png").c_str());
+  assetManager->AddTexture("jungle-tiletexture", std::string("./assets/tilemaps/jungle.png").c_str());
 
-  Entity& chopperEntity(manager.AddEntity("chopper"));
+  map = new Map("jungle-tiletexture", 1, 32);
+  map->LoadMap("./assets/tilemaps/jungle.map", 25, 20);
+
+  Entity& chopperEntity(manager.AddEntity("chopper", PLAYER_LAYER));
   chopperEntity.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1);
   chopperEntity.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
   chopperEntity.AddComponent<KeyboardControlComponent>("w","d","s","a","space");
+
+  Entity& radarEntity(manager.AddEntity("radar", UI_LAYER));
+  radarEntity.AddComponent<TransformComponent>(720, 15, 0, 0, 64, 64, 1);
+  radarEntity.AddComponent<SpriteComponent>("radar-image", 8, 150, false, true);
 /*
   //Then include entities
     Entity& tankEntity(manager.AddEntity("tank"));

@@ -35,7 +35,8 @@ public:
     position.x += velocity.x * deltaTime;
     if ((position.y < WINDOW_HEIGHT-31 && velocity.y>0)||(position.y > 0 && velocity.y<0))
     position.y += velocity.y * deltaTime;
-    std::cout << owner->name << " X: " << position.x << " Y: " << position.y << std::endl;
+    
+    //std::cout << owner->name << " X: " << position.x << " Y: " << position.y << std::endl;
   }
 
   void Render() override {
