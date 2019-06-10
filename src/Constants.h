@@ -30,7 +30,7 @@ enum LayerType {
 
 const std::string COLLIDER_PLAYER = "PLAYER";
 const std::string COLLIDER_ENEMY = "ENEMY";
-
+const std::string COLLIDER_PROJECTILE = "PROJECTILE";
 
 const unsigned int NUM_LAYERS = 7;
 

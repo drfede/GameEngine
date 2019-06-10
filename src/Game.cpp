@@ -8,6 +8,7 @@
 #include "./Components/SpriteComponent.h"
 #include "./Components/TextLabelComponent.h"
 #include "./Components/KeyboardControlComponent.h"
+#include "./Components/ProjectileEmitterComponent.h"
 #include "../lib/glm/glm.hpp"
 #include "./Components/ColliderComponent.h"
 
@@ -73,6 +74,7 @@ void Game::LoadLevel(int levelNumber){
   assetManager->AddTexture("radar-image", std::string("./assets/images/radar.png").c_str());
   assetManager->AddTexture("jungle-tiletexture", std::string("./assets/tilemaps/jungle.png").c_str());
   assetManager->AddTexture("collisionTexture", std::string("./assets/images/collision-texture.png").c_str());
+  assetManager->AddTexture("projectile-image", std::string("./assets/images/bullet-enemy.png").c_str());
   assetManager->AddFont("charriot-font", std::string("./assets/fonts/charriot.ttf").c_str(), 14);
 
 
@@ -84,6 +86,7 @@ void Game::LoadLevel(int levelNumber){
   player.AddComponent<KeyboardControlComponent>("w","d","s","a","space");
   player.AddComponent<ColliderComponent>(COLLIDER_PLAYER, 240, 106, 32, 32);
 
+
   Entity& radarEntity(manager.AddEntity("radar", UI_LAYER));
   radarEntity.AddComponent<TransformComponent>(720, 15, 0, 0, 64, 64, 1);
   radarEntity.AddComponent<SpriteComponent>("radar-image", 8, 150, false, true);
@@ -93,6 +96,14 @@ void Game::LoadLevel(int levelNumber){
     tankEntity.AddComponent<TransformComponent>(150, 495, 5, 0, 32, 32, 1);
     tankEntity.AddComponent<SpriteComponent>("tank-image");
     tankEntity.AddComponent<ColliderComponent>(COLLIDER_ENEMY,150,495,32,32);
+
+    Entity& projectile(manager.AddEntity("projectile", PROJECTILE_LAYER));
+    projectile.AddComponent<TransformComponent>(150+16, 495+16, 0, 0, 4, 4, 1);
+    projectile.AddComponent<SpriteComponent>("projectile-image");
+    projectile.AddComponent<ColliderComponent>(COLLIDER_PROJECTILE, 150+16,495+16,4,4);
+    projectile.AddComponent<ProjectileEmitterComponent>(50, 270, 200, true);
+
+
 
     Entity& labelLevelName(manager.AddEntity("LabelLevelName", UI_LAYER));
     labelLevelName.AddComponent<TextLabelComponent>(10,10, "First Level", "charriot-font", WHITE_COLOR);
@@ -162,6 +173,9 @@ void Game::HandleCameraMovement(){
 void Game::CheckCollisions(){
   CollisionType collisionType = manager.CheckCollisions();
   if (collisionType == PLAYER_ENEMY_COLLISION) {
+    ProcessGameOver();
+  }
+  if (collisionType == PLAYER_PROJECTILE_COLLISION){
     ProcessGameOver();
   }
   if (collisionType == PLAYER_LEVEL_COMPLETE_COLLISION) {
