@@ -6,6 +6,7 @@
 #include "../Components/TransformComponent.h"
 #include "../Components/SpriteComponent.h"
 #include "../Components/ProjectileEmitterComponent.h"
+#include "../Components/ColliderComponent.h"
 
 class KeyboardControlComponent : public Component {
 public:
@@ -73,7 +74,6 @@ public:
           sprite->Play("LeftAnimation");
         }
         if (keyCode.compare(shootKey) == 0){
-          // TODO SHOOT AND PROJECTILES
         }
       }
 
@@ -90,6 +90,9 @@ public:
         }
         if (keyCode.compare(leftKey) == 0){
           transform->velocity.x = 0;
+        }
+        if (keyCode.compare(shootKey) == 0){
+
         }
     }
 

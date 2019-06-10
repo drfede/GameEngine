@@ -213,30 +213,59 @@ void Game::LoadLevel(int levelNumber){
                 int projectileAngle = entity["components"]["projectileEmitter"]["angle"];
                 bool projectileShouldLoop = entity["components"]["projectileEmitter"]["shouldLoop"];
                 std::string textureAssetId = entity["components"]["projectileEmitter"]["textureAssetId"];
-                Entity& projectile(manager.AddEntity("projectile", PROJECTILE_LAYER));
-                projectile.AddComponent<TransformComponent>(
-                    parentEntityXPos + (parentEntityWidth / 2),
-                    parentEntityYPos + (parentEntityHeight / 2),
-                    0,
-                    0,
-                    projectileWidth,
-                    projectileHeight,
-                    1
-                );
-                projectile.AddComponent<SpriteComponent>(textureAssetId);
-                projectile.AddComponent<ProjectileEmitterComponent>(
-                    projectileSpeed,
-                    projectileAngle,
-                    projectileRange,
-                    projectileShouldLoop
-                );
-                projectile.AddComponent<ColliderComponent>(
-                    COLLIDER_PROJECTILE,
-                    parentEntityXPos,
-                    parentEntityYPos,
-                    projectileWidth,
-                    projectileHeight
-                );
+
+                std::string tempName = entity["name"];
+                if (tempName.compare("player") != 0){
+                  Entity& projectile(manager.AddEntity("projectile", PROJECTILE_LAYER));
+                  projectile.AddComponent<TransformComponent>(
+                      parentEntityXPos + (parentEntityWidth / 2),
+                      parentEntityYPos + (parentEntityHeight / 2),
+                      0,
+                      0,
+                      projectileWidth,
+                      projectileHeight,
+                      1
+                  );
+                  projectile.AddComponent<SpriteComponent>(textureAssetId);
+                  projectile.AddComponent<ProjectileEmitterComponent>(
+                      projectileSpeed,
+                      projectileAngle,
+                      projectileRange,
+                      projectileShouldLoop
+                  );
+                  projectile.AddComponent<ColliderComponent>(
+                      ENEMY_COLLIDER_PROJECTILE,
+                      parentEntityXPos,
+                      parentEntityYPos,
+                      projectileWidth,
+                      projectileHeight
+                  );
+                } else {
+                  Entity& projectile(manager.AddEntity("friendly_projectile", PROJECTILE_LAYER));
+                  projectile.AddComponent<TransformComponent>(
+                      parentEntityXPos + (parentEntityWidth / 2),
+                      parentEntityYPos + (parentEntityHeight / 2),
+                      0,
+                      0,
+                      projectileWidth,
+                      projectileHeight,
+                      1
+                  );
+                  projectile.AddComponent<SpriteComponent>(textureAssetId);
+                  projectile.AddComponent<ProjectileEmitterComponent>(
+                      projectileSpeed,
+                      projectileAngle,
+                      projectileRange,
+                      false
+                  );
+                  projectile.AddComponent<ColliderComponent>(
+                      PLAYER_COLLIDER_PROJECTILE,
+                      parentEntityXPos,
+                      parentEntityYPos,
+                      projectileWidth,
+                      projectileHeight
+                  );
+                }
             }
         }
     entitiesIndex++;
@@ -254,7 +283,8 @@ void Game::ProcessInput(){
         m_isRunning = false;
       if (event.key.keysym.sym == SDLK_F1)
         collidersOn = collidersOn ? false : true;
-
+      if (event.key.keysym.sym == SDLK_SPACE){
+      }
     }
     default: {break;}
   }

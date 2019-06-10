@@ -49,10 +49,8 @@ public:
   }
 
   void Render() override {
-
     if (Game::collidersOn)
       TextureManager::Draw(texture, sourceRectangle, destinationRectangle, SDL_FLIP_NONE);
-      
   }
 
 
