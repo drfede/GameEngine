@@ -68,13 +68,14 @@ void Game::LoadLevel(int levelNumber){
   assetManager->AddTexture("chopper-image", std::string("./assets/images/chopper-spritesheet.png").c_str());
   assetManager->AddTexture("radar-image", std::string("./assets/images/radar.png").c_str());
   assetManager->AddTexture("jungle-tiletexture", std::string("./assets/tilemaps/jungle.png").c_str());
+  assetManager->AddTexture("collisionTexture", std::string("./assets/images/collision-texture.png").c_str());
 
   map = new Map("jungle-tiletexture", 2, 32);
   map->LoadMap("./assets/tilemaps/jungle.map", 25, 20);
 
   player.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1);
   player.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
-  player.AddComponent<KeyboardControlComponent>("w","d","s","a","space");
+  player.AddComponent<KeyboardControlComponent>("w","d","s","a","space","c");
   player.AddComponent<ColliderComponent>("player", 240, 106, 32, 32);
 
   Entity& radarEntity(manager.AddEntity("radar", UI_LAYER));

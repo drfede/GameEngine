@@ -3,8 +3,11 @@
 
 #include "../Game.h"
 #include "../EntityManager.h"
+#include "../AssetManager.h"
+#include "../../lib/glm/glm.hpp"
 #include "../Components/TransformComponent.h"
 #include <SDL2/SDL.h>
+#include <string>
 
 class ColliderComponent: public Component {
 public:
@@ -13,10 +16,19 @@ public:
   SDL_Rect sourceRectangle;
   SDL_Rect destinationRectangle;
   TransformComponent* transform;
+  SDL_Texture* texture;
+  std::string textureId = "collisionTexture";
 
-  ColliderComponent(std::string colliderTag, int x, int y, int width, int height){
+  ColliderComponent(std::string colliderTag, int x, int y,
+    int width, int height){
     this->colliderTag = colliderTag;
     this->collider = {x,y,width,height};
+    texture = Game::assetManager->GetTexture(textureId);
+
+  }
+
+  ~ColliderComponent(){
+    SDL_DestroyTexture(texture);
   }
 
   void Initialize() override {
@@ -34,7 +46,19 @@ public:
     collider.h = transform->height* transform->scale;
     destinationRectangle.x = collider.x - Game::camera.x;
     destinationRectangle.y = collider.y - Game::camera.y;
+  }
 
+  void Render() override {
+
+    if (Game::collidersOn)
+      TextureManager::Draw(texture, sourceRectangle, destinationRectangle, SDL_FLIP_NONE);
+    /*
+    if (Game::collidersOn){
+      TextureManager::Draw(texture, sourceRectangle, destinationRectangle, SDL_FLIP_NONE);
+    } else {
+
+    }
+    */
   }
 
 
