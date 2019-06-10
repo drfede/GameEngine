@@ -24,6 +24,7 @@ public:
   Entity(EntityManager& manager);
   Entity(EntityManager& manager, std::string name, LayerType layer);
   void Update(float deltaTime);
+  void GotShot();
   void Render();
   void Destroy();
   bool isActive() const;

@@ -5,6 +5,7 @@
 #include "../EntityManager.h"
 #include "../Components/TransformComponent.h"
 #include "../Components/SpriteComponent.h"
+#include "../Components/ProjectileEmitterComponent.h"
 
 class KeyboardControlComponent : public Component {
 public:

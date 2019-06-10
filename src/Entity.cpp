@@ -36,6 +36,10 @@ void Entity::Destroy() {
   m_isActive = false;
 }
 
+void Entity::GotShot(){
+  this->m_isActive = false;
+}
+
 bool Entity::isActive() const {
   return this->m_isActive;
 }

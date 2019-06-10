@@ -23,7 +23,6 @@ for (int i=0; i< entities.size();i++){
   }
 }
 
-
 void EntityManager::Render() {
 
   for (int layerNum = 0; layerNum < NUM_LAYERS; layerNum++){
@@ -51,6 +50,15 @@ std::vector<Entity*> EntityManager::getEntitiesByLayer(LayerType layer) const {
     }
   }
   return selectedEntities;
+}
+
+Entity* EntityManager::GetEntityByName(std::string entityName)const{
+  for (auto* entity:entities){
+    if (entity->name.compare(entityName) == 0){
+      return entity;
+    }
+  }
+  return NULL;
 }
 
 unsigned int EntityManager::getEntityCount() {
@@ -84,6 +92,7 @@ CollisionType EntityManager::CheckCollisions() const {
             }
             if (thisCollider->colliderTag.compare("ENEMY") == 0 &&
                 thatCollider->colliderTag.compare("FRIENDLY_PROJECTILE") == 0){
+                  thisEntity->GotShot();
               return ENEMY_PROJECTILE_COLLISION;
             }
             if (thisCollider->colliderTag.compare("PLAYER") == 0 &&

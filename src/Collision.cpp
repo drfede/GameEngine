@@ -6,6 +6,6 @@ bool Collision::CheckRectangleCollision(const SDL_Rect& rectangleA, const SDL_Re
     rectangleA.x + rectangleA.w >= rectangleB.x &&
     rectangleB.x + rectangleB.w >= rectangleA.x &&
     rectangleA.y + rectangleA.h >= rectangleB.y &&
-    rectangleB.y + rectangleA.h >= rectangleB.y
+    rectangleB.y + rectangleB.h >= rectangleA.y
   );
 }
