@@ -305,9 +305,12 @@ void Game::ProcessInput(){
     case SDL_KEYDOWN: {
       if (event.key.keysym.sym == SDLK_ESCAPE)
         m_isRunning = false;
-      if (event.key.keysym.sym == SDLK_F1)
+      if (event.key.keysym.sym == SDLK_F1){
         collidersOn = collidersOn ? false : true;
+        break;
+      }
       if (event.key.keysym.sym == SDLK_SPACE){
+        break;
       }
     }
     default: {break;}
