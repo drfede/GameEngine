@@ -21,6 +21,18 @@ public:
     this->shouldLoop = shouldLoop;
   }
 
+  int getSpeed() const{
+    return speed;
+  }
+
+  int getRange() const{
+    return range;
+  }
+
+  bool getShouldLoop() const{
+    return shouldLoop;
+  }
+
   void Initialize() override {
     transform = owner->GetComponent<TransformComponent>();
     origin = glm::vec2(transform->position.x, transform->position.y);

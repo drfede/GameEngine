@@ -97,7 +97,9 @@ CollisionType EntityManager::CheckCollisions() const {
                 thatCollider->colliderTag.compare(PLAYER_COLLIDER_PROJECTILE) == 0)||
                 (thisCollider->colliderTag.compare(PLAYER_COLLIDER_PROJECTILE) == 0 &&
                 thatCollider->colliderTag.compare(COLLIDER_ENEMY) == 0)){
-                  thisCollider->colliderTag.compare(COLLIDER_ENEMY) == 0 ? thisEntity->GotShot() : thatEntity->GotShot();
+                  //thisCollider->colliderTag.compare(COLLIDER_ENEMY) == 0 ? thisEntity->GotShot() : thatEntity->GotShot();
+                  thisEntity -> GotShot();
+                  thatEntity -> GotShot();
               return ENEMY_PROJECTILE_COLLISION;
             }
             if (thisCollider->colliderTag.compare(COLLIDER_PLAYER) == 0 &&

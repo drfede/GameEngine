@@ -7,6 +7,7 @@
 #include "../Components/SpriteComponent.h"
 #include "../Components/ProjectileEmitterComponent.h"
 #include "../Components/ColliderComponent.h"
+#include "../Constants.h"
 
 class KeyboardControlComponent : public Component {
 public:
@@ -17,10 +18,12 @@ public:
   std::string shootKey;
   TransformComponent *transform;
   SpriteComponent *sprite;
+  DirectionType direction  = RIGHT;
 
   KeyboardControlComponent(){
 
   }
+
 
   KeyboardControlComponent(std::string upKey,
       std::string rightKey,
@@ -44,6 +47,10 @@ public:
       return std::to_string(static_cast<int>(key[0]));
     }
 
+    int getDirection(){
+      return static_cast<int>(direction)*90;
+    }
+
     void Initialize() override {
       transform = owner -> GetComponent<TransformComponent>();
       sprite = owner -> GetComponent<SpriteComponent>();
@@ -56,24 +63,29 @@ public:
         if (keyCode.compare(upKey) == 0){
           transform->velocity.y = -50;
           transform->velocity.x = 0;
+          direction = UP;
           sprite->Play("UpAnimation");
         }
         if (keyCode.compare(rightKey) == 0){
           transform->velocity.y = 0;
           transform->velocity.x = 50;
+          direction = RIGHT;
           sprite->Play("RightAnimation");
         }
         if (keyCode.compare(downKey) == 0){
           transform->velocity.y = 50;
           transform->velocity.x = 0;
+          direction = DOWN;
           sprite->Play("DownAnimation");
         }
         if (keyCode.compare(leftKey) == 0){
           transform->velocity.y = 0;
           transform->velocity.x = -50;
+          direction = LEFT;
           sprite->Play("LeftAnimation");
         }
         if (keyCode.compare(shootKey) == 0){
+          Game::playerShoot();
         }
       }
 

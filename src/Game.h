@@ -37,6 +37,7 @@ class Game {
     void CheckCollisions();
     void ProcessNextLevel(int levelNumber);
     void ProcessGameOver();
+    static void playerShoot();
 };
 
 

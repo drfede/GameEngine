@@ -18,6 +18,7 @@ AssetManager* Game::assetManager = new AssetManager(&manager);
 SDL_Event Game::event;
 SDL_Rect Game::camera = {0,0,WINDOW_WIDTH, WINDOW_HEIGHT};
 Entity* mainPlayer = NULL;
+Entity* mainPlayerProjectile = NULL;
 Map* map;
 bool Game::collidersOn = true;
 
@@ -271,6 +272,7 @@ void Game::LoadLevel(int levelNumber){
     entitiesIndex++;
   }
   mainPlayer = manager.GetEntityByName("player");
+  mainPlayerProjectile = manager.GetEntityByName("friendly_projectile");
 }
 
 void Game::ProcessInput(){
@@ -336,6 +338,35 @@ void Game::HandleCameraMovement(){
   }
 
 }
+
+void Game::playerShoot(){
+  TransformComponent* mainPlayerTransform = mainPlayer->GetComponent<TransformComponent>();
+TransformComponent* mainPlayerProjectileTransform = mainPlayerProjectile->GetComponent<TransformComponent>();
+  Entity& friendly_projectile(manager.AddEntity("friendly_projectile", PROJECTILE_LAYER));
+  friendly_projectile.AddComponent<TransformComponent>(
+    mainPlayerTransform -> position.x + (mainPlayerTransform->width/2),
+    mainPlayerTransform -> position.y + (mainPlayerTransform->width/2),
+    0,
+    0,
+    mainPlayerProjectileTransform ->width,
+    mainPlayerProjectileTransform ->height,1);
+  friendly_projectile.AddComponent<SpriteComponent>("bullet-friendly-texture");
+  friendly_projectile.AddComponent<ColliderComponent>(
+    PLAYER_COLLIDER_PROJECTILE,
+    mainPlayerTransform -> position.x+16,
+    mainPlayerTransform -> position.y+16,
+    mainPlayerProjectileTransform -> width,
+    mainPlayerProjectileTransform -> height);
+
+KeyboardControlComponent* mainPlayerKeyboardControlComponent = mainPlayer->GetComponent<KeyboardControlComponent>();
+ProjectileEmitterComponent* mainPlayerProjectileEmitterComponent = mainPlayerProjectile->GetComponent<ProjectileEmitterComponent>();
+friendly_projectile.AddComponent<ProjectileEmitterComponent>(
+  mainPlayerProjectileEmitterComponent->getSpeed(),
+  mainPlayerKeyboardControlComponent->getDirection(),
+  mainPlayerProjectileEmitterComponent->getRange(),
+  false);
+}
+
 
 
 void Game::CheckCollisions(){

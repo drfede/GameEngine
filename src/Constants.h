@@ -28,6 +28,13 @@ enum LayerType {
   UI_LAYER = 6
 };
 
+enum DirectionType {
+  RIGHT = 0,
+  DOWN = 1,
+  LEFT = 2,
+  UP = 3
+};
+
 const std::string COLLIDER_PLAYER = "PLAYER";
 const std::string COLLIDER_ENEMY = "ENEMY";
 const std::string ENEMY_COLLIDER_PROJECTILE = "PROJECTILE";
