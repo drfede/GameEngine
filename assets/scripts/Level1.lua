@@ -1547,6 +1547,24 @@ Level1 = {
                     fixed = true
                 }
             }
+        },
+        [48] = {
+            name = "LabelLevelName",
+            layer = 6,
+            components = {
+                label = {
+                    x = 10,
+                    y = 10,
+                    text = "Level 1",
+                    font = "charriot-font",
+                    color = {
+                        r = 255,
+                        g = 255,
+                        b = 255,
+                        a = 255
+                    }
+                }
+            }
         }
     }
 }

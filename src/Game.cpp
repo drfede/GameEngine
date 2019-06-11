@@ -200,6 +200,26 @@ void Game::LoadLevel(int levelNumber){
         );
       }
 
+      sol::optional<sol::table> existsLabelComponent = entity["components"]["label"];
+      if (existsLabelComponent != sol::nullopt){
+        std::string labelName = entity["components"]["label"]["name"];
+        int r = entity["components"]["label"]["color"]["r"];
+        int g = entity["components"]["label"]["color"]["g"];
+        int b = entity["components"]["label"]["color"]["b"];
+        int a = entity["components"]["label"]["color"]["a"];
+        std::string text = entity["components"]["label"]["text"];
+        std::string font = entity["components"]["label"]["font"];
+        SDL_Color color = {r,g,b,a};
+        newEntity.AddComponent<TextLabelComponent>(
+          static_cast<int>(entity["components"]["label"]["x"]),
+          static_cast<int>(entity["components"]["label"]["y"]),
+          text,
+          font,
+          color
+        );
+      }
+
+
       //Check Projectile Emitter Component
       sol::optional<sol::table> existsProjectileEmitterComponent = entity["components"]["projectileEmitter"];
             if (existsProjectileEmitterComponent != sol::nullopt) {
@@ -268,6 +288,8 @@ void Game::LoadLevel(int levelNumber){
                   );
                 }
             }
+
+
         }
     entitiesIndex++;
   }

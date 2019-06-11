@@ -42,7 +42,7 @@ const std::string PLAYER_COLLIDER_PROJECTILE = "FRIENDLY_PROJECTILE";
 
 const unsigned int NUM_LAYERS = 7;
 
-const SDL_Color WHITE_COLOR ={255,255,255,255};
-const SDL_Color GREEN_COLOR ={0,255,0,255};
+const SDL_Color WHITE_COLOR = {255,255,255,255};
+const SDL_Color GREEN_COLOR = {0,255,0,255};
 
 #endif
