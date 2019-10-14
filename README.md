@@ -1,6 +1,6 @@
 # GameEngine
 
-2D Game Engine made in C++ using SDL (Simple DirectMedia Layer) and Lua.
+2D Game Engine made in C++ using SDL and Lua.
 Still under development but you can create Textures, Tiles, Entities and Text labels. 
 
 Requirements are SDL, Lua, GLM (included) and Sol (included).
